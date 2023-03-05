@@ -7,13 +7,53 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import {
+  BottomTabNavigationProp,
+  BottomTabScreenProps,
+} from "@react-navigation/bottom-tabs";
+import type {
+  CompositeScreenProps,
+  NavigatorScreenParams,
+} from "@react-navigation/native";
+
+import type { StackScreenProps } from "@react-navigation/stack";
 import ChatListScreen from "./screens/ChatListScreen";
 import ChatSettingScreen from "./screens/ChatSettingScreen";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import SettingsScreen from "./screens/SettingsScreen";
 
+export type HomeTabParamList = {
+  ChatList: undefined;
+  Setting: undefined;
+};
+export type RootStackParamListe = {
+  Home: NavigatorScreenParams<HomeTabParamList>;
+  ChatSettings: undefined;
+};
+
+export type RootStackScreenProps<T extends keyof RootStackParamList> =
+  StackScreenProps<RootStackParamList, T>;
+
+export type HomeTabScreenProps<T extends keyof HomeTabParamList> =
+  CompositeScreenProps<
+    BottomTabScreenProps<HomeTabParamList, T>,
+    RootStackScreenProps<keyof RootStackParamList>
+  >;
+
+const Tab = createBottomTabNavigator<HomeTabParamList>();
 type RootStackParamList = {
   Home: undefined;
   ChatSettings: undefined;
 };
+
+function TabNavigator() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name='ChatList' component={ChatListScreen} />
+      <Tab.Screen name='Setting' component={SettingsScreen} />
+    </Tab.Navigator>
+  );
+}
 export type Props = NativeStackScreenProps<RootStackParamList>;
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -36,7 +76,7 @@ export default function App() {
     <SafeAreaProvider onLayout={onLayout} style={styles.container}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name='Home' component={ChatListScreen} />
+          <Stack.Screen name='Home' component={TabNavigator} />
           <Stack.Screen name='ChatSettings' component={ChatSettingScreen} />
         </Stack.Navigator>
       </NavigationContainer>
@@ -50,3 +90,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
 });
+
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends RootStackParamList {}
+  }
+}
