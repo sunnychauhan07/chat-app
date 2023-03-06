@@ -15,7 +15,7 @@ import type {
   CompositeScreenProps,
   NavigatorScreenParams,
 } from "@react-navigation/native";
-
+import Ionicons from "@expo/vector-icons/Ionicons";
 import type { StackScreenProps } from "@react-navigation/stack";
 import ChatListScreen from "./screens/ChatListScreen";
 import ChatSettingScreen from "./screens/ChatSettingScreen";
@@ -48,9 +48,27 @@ type RootStackParamList = {
 
 function TabNavigator() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name='ChatList' component={ChatListScreen} />
-      <Tab.Screen name='Setting' component={SettingsScreen} />
+    <Tab.Navigator screenOptions={{ headerTitle: "" }}>
+      <Tab.Screen
+        name='ChatList'
+        component={ChatListScreen}
+        options={{
+          tabBarLabel: "Chats",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name='chatbubble' size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name='Setting'
+        component={SettingsScreen}
+        options={{
+          tabBarLabel: "Settings",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name='settings' size={size} color={color} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }
