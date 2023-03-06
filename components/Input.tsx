@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import React from "react";
 import { Colors } from "../contant/colors";
+import { FontAwesome } from "@expo/vector-icons";
 
 interface props {
   label: string;
@@ -10,6 +11,7 @@ const Input = ({ label }: props) => {
     <View>
       <Text>{label}</Text>
       <View style={styles.inputContainer}>
+        <FontAwesome name='user-o' size={24} color='black' />
         <TextInput />
       </View>
     </View>
