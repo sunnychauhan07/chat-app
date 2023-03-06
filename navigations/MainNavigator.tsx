@@ -16,6 +16,7 @@ import {
   NavigatorScreenParams,
 } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import ChatScreen from "../screens/ChatScreen";
 const Stack = createStackNavigator<RootStackParamListe>();
 
 export type HomeTabParamList = {
@@ -25,6 +26,7 @@ export type HomeTabParamList = {
 export type RootStackParamListe = {
   Home: NavigatorScreenParams<HomeTabParamList>;
   ChatSettings: undefined;
+  ChatScreen: undefined;
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
@@ -39,6 +41,7 @@ export type HomeTabScreenProps<T extends keyof HomeTabParamList> =
 type RootStackParamList = {
   Home: undefined;
   ChatSettings: undefined;
+  ChatScreen: undefined;
 };
 
 export type Props = NativeStackScreenProps<RootStackParamList>;
@@ -72,8 +75,28 @@ function TabNavigator() {
 export const MainNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name='Home' component={TabNavigator} />
-      <Stack.Screen name='ChatSettings' component={ChatSettingScreen} />
+      <Stack.Screen
+        name='Home'
+        component={TabNavigator}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name='ChatSettings'
+        component={ChatSettingScreen}
+        options={{
+          headerBackTitle: "Back",
+        }}
+      />
+      <Stack.Screen
+        name='ChatScreen'
+        component={ChatScreen}
+        options={{
+          headerBackTitle: "back",
+          headerTitle: "",
+        }}
+      />
     </Stack.Navigator>
   );
 };
