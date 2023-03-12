@@ -10,6 +10,7 @@ interface props {
   errorText: string;
 }
 const Input = ({ label, IconPack, icon, errorText }: props) => {
+  console.log("child render");
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
